@@ -7,9 +7,9 @@ public class LuhnValidator {
   }
 
   private boolean isValidLuhn(String num) {
-    int[] d = num.chars().filter(Character::isDigit).map(Character::getNumericValue).toArray();
+    int[] d = num.codePoints().filter(Character::isDigit).map(Character::getNumericValue).toArray();
     return IntStream.range(0, d.length)
-      .map(i -> isEvenFromRight(i, d) ? d[i] : transDigit(d[i]))
+      .map(i -> isEvenFromRight(i, d.length) ? d[i] : transDigit(d[i]))
       .sum() % 10 == 0;
   }
 
@@ -17,8 +17,8 @@ public class LuhnValidator {
     return num.matches("(\\s*\\d\\s*){2,}");
   }
 
-  private boolean isEvenFromRight(int i, int[] a) {
-    return (a.length - 1 - i) % 2 == 0;
+  private boolean isEvenFromRight(int i, int len) {
+    return (len - 1 - i) % 2 == 0;
   }
 
   private int transDigit(int d) {
