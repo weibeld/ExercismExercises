@@ -1,17 +1,17 @@
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public class Matrix {
 
   private int[][] matrix;
 
   public Matrix(String str) {
-    String[] rows = str.split("\n");
-    matrix = new int[rows.length][];
-
-    for (int i = 0; i < rows.length; i++) {
-      matrix[i] = rows[i].codePoints()
+    matrix = Arrays.stream(str.split("\n")).map(
+        row -> row.codePoints()
         .filter(Character::isDigit)
         .map(Character::getNumericValue)
-        .toArray();
-    }
+        .toArray()
+      ).toArray(int[][]::new);
   }
 
   public int getRowsCount() {
@@ -27,11 +27,9 @@ public class Matrix {
   }
 
   public int[] getColumn(int colIndex) {
-    int[] col = new int[getRowsCount()];
-    for (int i = 0; i < getRowsCount(); i++) {
-      col[i] = matrix[i][colIndex];
-    }
-    return col;
+    return IntStream.range(0, getRowsCount())
+      .map(rowIndex -> matrix[rowIndex][colIndex])
+      .toArray();
   }
 
 }
