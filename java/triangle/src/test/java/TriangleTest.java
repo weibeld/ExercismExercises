@@ -87,9 +87,21 @@ public class TriangleTest {
     }
 
     @Test
+    public void trianglesZeroLengthSideAreIllegal() throws TriangleException {
+        thrown.expect(TriangleException.class);
+        new Triangle(0, 3, 2);
+    }
+
+    @Test
     public void trianglesWithNegativeSidesAreIllegal() throws TriangleException {
         thrown.expect(TriangleException.class);
         new Triangle(3, 4, -5);
+    }
+
+    @Test
+    public void trianglesWithAllNegativeSidesAreIllegal() throws TriangleException {
+        thrown.expect(TriangleException.class);
+        new Triangle(-5, -5, -5);
     }
 
     @Test
