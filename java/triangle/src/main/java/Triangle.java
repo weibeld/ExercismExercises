@@ -1,27 +1,25 @@
+import java.util.Arrays;
+
 class Triangle {
 
   private TriangleKind kind;
 
   Triangle(double side1, double side2, double side3) throws TriangleException {
-    if (side1 <= 0 || side2 <= 0 || side3 <= 0)
+    double[] sides = new double[] {side1, side2, side3};
+    Arrays.sort(sides);
+
+    if (sides[2] >= sides[0] + sides[1])
       throw new TriangleException();
-    else if (!isTriangle(side1, side2, side3))
-      throw new TriangleException();
-    else if (side1 == side2 && side1 == side3)
-      kind = TriangleKind.EQUILATERAL;
-    else if (side1 == side2 || side1 == side3 || side2 == side3)
-      kind = TriangleKind.ISOSCELES;
-    else
-      kind = TriangleKind.SCALENE;
+
+    switch ((sides[0] == sides[1] ? 1 : 0) + (sides[1] == sides[2] ? 1 : 0)) {
+      case 2: kind = TriangleKind.EQUILATERAL; break;
+      case 1: kind = TriangleKind.ISOSCELES; break;
+      case 0: kind = TriangleKind.SCALENE; break;
+    }
   }
 
   public TriangleKind getKind() {
     return kind;
-  }
-
-  private boolean isTriangle(double side1, double side2, double side3) {
-    double max = Math.max(side1, Math.max(side2, side3));
-    return side1 + side2 + side3 > 2 * max;
   }
 
 }
